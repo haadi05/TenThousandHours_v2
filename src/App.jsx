@@ -1,26 +1,12 @@
-import useAuth from "./hooks/useAuth";
-import { LoginForm } from "./components/login-form";
-import { firebaseSignOut } from "./firebase/auth";
+import { Outlet } from "react-router-dom";
+import { Navbar } from "./importStore";
 
 function App() {
-  const { user, loading, setUser } = useAuth();
-
-  const handleLogout = () => {
-    firebaseSignOut(() => setUser(null));
-  };
   return (
-    <div>
-      {loading ? (
-        <p>loading...</p>
-      ) : user ? (
-        <>
-          <div>welcome {user.displayName}</div>
-          <button onClick={handleLogout}>signOut</button>
-        </>
-      ) : (
-        <LoginForm />
-      )}
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   );
 }
 
