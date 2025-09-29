@@ -9,18 +9,14 @@ function Navbar() {
   };
   return (
     <>
-      <div>
-        {loading ? (
-          <p>loading...</p>
-        ) : user ? (
-          <>
-            <div>welcome {user.displayName}</div>
-            <button onClick={handleLogout}>signOut</button>
-          </>
-        ) : (
-          <LoginForm />
-        )}
-      </div>
+      {user ? (
+        <>
+          <div>welcome {user.displayName}</div>
+          <button onClick={handleLogout}>signOut</button>
+        </>
+      ) : (
+        <LoginForm />
+      )}
     </>
   );
 }
