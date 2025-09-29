@@ -3,16 +3,29 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import { LoginForm, Home, Dashboard } from "./importStore.js";
+import { LoginForm, Home, Dashboard, ProtectedRoutes } from "./importStore.js";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <Home /> },
-      { path: "dashboard", element: <Dashboard /> },
+      {
+        path: "",
+        element: (
+          <ProtectedRoutes>
+            <Home />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoutes>
+            <Dashboard />
+          </ProtectedRoutes>
+        ),
+      },
     ],
   },
   { path: "loginform", element: <LoginForm /> },
