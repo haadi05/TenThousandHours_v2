@@ -19,11 +19,16 @@ export default function LoginForm({ className, ...props }) {
   };
 
   return (
-    <div className="h-screen  flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <Card>
-          <CardHeader className="flex justify-center items-center">
-            <CardTitle>Login to your account</CardTitle>
+        <p className="text-white flex justify-center items-center text-lg font-md">
+          <img className="size-6 mr-1" src="./src/assets/logo.svg" /> Ten
+          Thousand Hours
+        </p>
+        <Card className="w-xs">
+          <CardHeader className="flex flex-col justify-center items-center">
+            <CardTitle className="text-xl">Welcome</CardTitle>
+            <CardDescription>Continue with your Google account</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col gap-6">
