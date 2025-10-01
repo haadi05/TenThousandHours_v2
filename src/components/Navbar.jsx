@@ -1,6 +1,14 @@
 import useAuth from "../hooks/useAuth";
 import { firebaseSignOut } from "../firebase/auth";
-import { LoginForm } from "../importStore";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function Navbar() {
   const { user, loading, setUser } = useAuth();
@@ -8,16 +16,27 @@ function Navbar() {
     firebaseSignOut(() => setUser(null));
   };
   return (
-    <>
-      {user ? (
-        <>
-          <div>welcome {user.displayName}</div>
-          <button onClick={handleLogout}>signOut</button>
-        </>
-      ) : (
-        <LoginForm />
-      )}
-    </>
+    <nav className="px-18 py-4 flex justify-between items-center border-b-2">
+      <div>
+        <p className="text-3xl max-[630px]:text-2xl font-bold">
+          Ten Thousand Hours
+        </p>
+        <p className="text-[18px] max-[400px]:text-[14px] font-normal text-[#a2a2a2]">
+          Track. Improve. Master
+        </p>
+      </div>
+      <div className="flex items-center gap-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="cursor-pointer outline-none">
+            <img className="size-11" src="./src/assets/logo.svg" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>user@email.com</DropdownMenuLabel>
+            <DropdownMenuItem onClick={handleLogout}>Signout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </nav>
   );
 }
 
