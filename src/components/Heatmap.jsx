@@ -2,14 +2,14 @@ import HeatMap from "@uiw/react-heat-map";
 
 const value = [
   { date: "2025/01/11", count: 2 },
-  { date: "2025/01/12", count: 30 },
+  { date: "2025/01/12", count: 4 },
   { date: "2025/01/13", count: 10 },
   { date: "2025/04/13", count: 5 },
   { date: "2025/06/18", count: 1 },
-  { date: "2025/09/17", count: 19 },
-  { date: "2025/11/23", count: 21 },
-  { date: "2025/10/13", count: 12 },
-  { date: "2025/12/31", count: 12 },
+  { date: "2025/09/17", count: 7 },
+  { date: "2025/11/23", count: 2 },
+  { date: "2025/10/13", count: 6 },
+  { date: "2025/12/31", count: 9 },
 ];
 
 const HeatMapGraph = () => {
@@ -18,7 +18,7 @@ const HeatMapGraph = () => {
       <div>
         <HeatMap
           value={value}
-          width={1200}
+          width={1400}
           height={170}
           weekLabels={["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
           startDate={new Date("2025/01/01")}
