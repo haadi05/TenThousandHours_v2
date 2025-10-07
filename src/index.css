@@ -200,7 +200,7 @@
   }
 }
 
-/* Disable arrows in input  */
+/* Disable arrows in input */
 .no-arrows::-webkit-outer-spin-button,
 .no-arrows::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -209,4 +209,13 @@
 
 .no-arrows[type="number"] {
   appearance: textfield;
+}
+
+/* Scroll bar fix */
+.scrollbar {
+  scrollbar-color: var(--muted-foreground) transparent;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
 }
