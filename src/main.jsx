@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "dashboard",
+        path: ":id",
         element: (
           <ProtectedRoutes>
             <Dashboard />
