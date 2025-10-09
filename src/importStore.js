@@ -3,6 +3,7 @@ export { default as Home } from "./components/Home";
 export { default as SkillsCard } from "./components/SkillsCard";
 export { default as AddCard } from "./components/AddCard";
 export { default as EditPopUp } from "./components/EditPopUp";
+export { default as DeletePopUp } from "./components/DeletePopUp";
 export { default as Dashboard } from "./components/Dashboard";
 export { default as HeatMapGraph } from "./components/Heatmap";
 export { default as ThemeDropdown } from "./components/ThemeDropdown";
