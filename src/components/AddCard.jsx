@@ -29,9 +29,9 @@ function AddCard() {
 
   const [skillName, setSkillName] = React.useState("");
   const [initialHours, setInitialHours] = React.useState(0);
-  const [goalHours, setGoalHours] = React.useState(0);
+  const [goalHours, setGoalHours] = React.useState(10000);
   const [date, setDate] = React.useState(new Date());
-  const [theme, setTheme] = React.useState();
+  // const [theme, setTheme] = React.useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,6 +73,7 @@ function AddCard() {
             <DialogTitle className="text-2xl font-bold mb-4">
               Add New Skill
             </DialogTitle>
+
             <div>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-2">
@@ -145,11 +146,11 @@ function AddCard() {
                     </Popover>
                   </div>
 
-                  <Label>Theme</Label>
-                  <ThemeDropdown />
+                  {/* <Label>Theme</Label>
+                  <ThemeDropdown /> */}
 
                   <Button
-                    className="cursor-pointer text-md font-bold hover:bg-secondary mt-4"
+                    className="cursor-pointer text-md font-bold hover:bg-secondary"
                     type="submit"
                   >
                     Add Skill
