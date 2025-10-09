@@ -4,21 +4,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
-import { EditPopUp } from "../importStore";
+import { EditPopUp, DeletePopUp } from "../importStore";
+
 function SkillsCard({ skillObj }) {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
 
   const title = skillObj.skillName;
   const logged_hours = Number(skillObj.loggedHours) || 0;
   const goal_hours = Number(skillObj.goalHours) || 0;
   const percentage =
     goal_hours > 0 ? Math.min((logged_hours / goal_hours) * 100, 100) : 0;
-  const theme = "red";
+  // const theme = "red";
 
   return (
     <Card className="px-6 py-4 transition delay-40 duration-160 ease-in border-2 hover:border-muted-foreground ">
@@ -32,10 +31,8 @@ function SkillsCard({ skillObj }) {
               <img src="/dots.svg" />
             </PopoverTrigger>
             <PopoverContent side="left" className="w-fit bg-card border-0 p-0">
-              <button className="outline-none cursor-pointer hover:bg-red-500 rounded-full p-2">
-                <img src="/trash.svg" alt="Delete" />
-              </button>
-              <EditPopUp />
+              <DeletePopUp />
+              <EditPopUp skills={skillObj} />
             </PopoverContent>
           </Popover>
         </div>
@@ -54,7 +51,7 @@ function SkillsCard({ skillObj }) {
               <img className="size-6 pr-1" src="/target-arrow.svg" />
               Remaining
             </span>
-            <p className="text-xl text-white font-semibold">{percentage}h</p>
+            <p className="text-xl text-white font-semibold">{goal_hours}h</p>
           </div>
         </div>
 
