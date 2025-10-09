@@ -1,9 +1,9 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import useSkillStore from "../store/skillStore";
+import { useParams, useNavigate } from "react-router-dom";
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import { Input } from "./ui/input";
 import { HeatMapGraph } from "../importStore";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "./ui/input";
+import useSkillStore from "../store/skillStore";
 
 function Dashboard() {
   const { id } = useParams();
@@ -81,12 +81,15 @@ function Dashboard() {
                 <Input
                   type="number"
                   value={loggedHours}
-                  onChange={(e) => setLoggedHours(e.target.value)}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    if (value >= 0 && value <= 24) setLoggedHours(value);
+                  }}
                   max={24}
                   min={0}
                   className="no-arrows flex-1 text-center font-semibold"
                 />
-                <button onClick={() => setLoggedHours((h) => Number(h) + 1)}>
+                <button onClick={(e) => setLoggedHours((h) => Number(h) + 1)}>
                   <img
                     src="/plus.svg"
                     className="w-12 h-12 cursor-pointer"
