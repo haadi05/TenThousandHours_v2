@@ -1,92 +1,193 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useSkillStore from "../store/skillStore";
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { HeatMapGraph } from "../importStore";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "./ui/input";
 
 function Dashboard() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { skills, logHours } = useSkillStore();
+  const skill = skills.find((s) => String(s.id) === id);
+  const [loggedHours, setLoggedHours] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  if (!skill)
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center text-white">
+        <p className="text-lg mb-4">Skill not found.</p>
+        <Button onClick={() => navigate("/")}>Go Back</Button>
+      </div>
+    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (loggedHours <= 0) return;
+    logHours(skill.id, Number(loggedHours));
+    setLoggedHours(0);
+    setOpen(false);
+  };
+
+  const goal = skill.goalHours || 10000;
+  const logged = skill.loggedHours || 0;
+  const remaining = goal - logged;
+  const progressPercent = Math.min((logged / goal) * 100, 100).toFixed(1);
+
   return (
-    <>
-      <div className="min-h-screen text-white p-8">
-        <div className="mx-10">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Overview</h2>
-            <Button className="px-6 py-2 font-bold text-md cursor-pointer">
-              Log Hours
-            </Button>
-          </div>
-          {/* Stats Section */}
-          <div className="grid grid-cols-3 gap-6 mb-8">
-            <Card className="py-4 px-6">
-              <div className="flex items-center gap-2 text-sm mb-1">
-                <span className="flex">
-                  <img className="size-5 mr-1" src="/skill.svg" /> Your Skill
-                </span>
-              </div>
-              <div className="text-2xl font-bold">Chess</div>
-            </Card>
+    <div className="min-h-screen text-white p-8 [&>*]:outline-none">
+      <div className="mx-44">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Overview</h2>
 
-            {/* Logged Hours */}
-            <Card className=" py-4 px-6 ">
-              <div className="flex items-center gap-2 text-sm mb-1">
-                <span className="flex">
-                  <img className="size-5 mr-1" src="/clock.svg" /> Logged Hours
-                </span>
-              </div>
-              <div className="text-2xl font-bold">0h</div>
-            </Card>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <Button className="px-6 py-2 font-bold text-md cursor-pointer">
+                Log Hours
+              </Button>
+            </DialogTrigger>
 
-            {/* Remaining */}
-            <Card className="py-4 px-6">
-              <div className="flex items-center gap-2  text-sm mb-1">
-                <span className="flex items-center">
-                  <img className="size-5 mr-1" src="/target-arrow.svg" />
-                  Remaining
-                </span>
-              </div>
-              <div className="text-2xl font-bold">10,000h</div>
-            </Card>
-          </div>
+            <DialogContent className="w-94">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold mb-4">
+                  Log Hours
+                </DialogTitle>
+              </DialogHeader>
 
-          {/* Progress Bar */}
-          <Card className="px-6 mb-8">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-300">0 / 10,000</span>
-              <span className="text-gray-400">
-                <span className="font-bold">12.0%</span>
-              </span>
-            </div>
-            <Progress value={21}></Progress>
-          </Card>
-
-          {/* Placeholder Section */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Visual Progress</h2>
-            <Card className="flex justify-center items-center py-4 px-6">
-              <div className="flex justify-end items-start"></div>
-              <HeatMapGraph />
-            </Card>
-          </div>
-
-          {/* History Section */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">History</h2>
-
-            {/* History Item 1 */}
-            <Card className="mb-3 py-4 px-6">
-              <div className="flex justify-between">
-                <div>
-                  <div className="text-lg font-semibold mb-1">Sep 27, 2025</div>
-                  <div className="text-gray-400">Today's practice hours: 5</div>
-                </div>
-                <button className="text-gray-400 hover:text-white text-3xl">
-                  ×
+              <div className="flex items-center gap-2 mb-4">
+                <button
+                  onClick={() =>
+                    setLoggedHours((h) => Math.max(0, Number(h) - 1))
+                  }
+                >
+                  <img
+                    src="/subtract.svg"
+                    className="w-12 h-12 cursor-pointer"
+                    alt="Subtract"
+                  />
+                </button>
+                <Input
+                  type="number"
+                  value={loggedHours}
+                  onChange={(e) => setLoggedHours(e.target.value)}
+                  max={24}
+                  min={0}
+                  className="no-arrows flex-1 text-center font-semibold"
+                />
+                <button onClick={() => setLoggedHours((h) => Number(h) + 1)}>
+                  <img
+                    src="/plus.svg"
+                    className="w-12 h-12 cursor-pointer"
+                    alt="Add"
+                  />
                 </button>
               </div>
-            </Card>
+
+              <div className="flex gap-2">
+                <Button
+                  className="flex-1 font-semibold bg-muted text-accent-foreground hover:bg-accent"
+                  onClick={() => {
+                    setLoggedHours(0);
+                    setOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  className="flex-1 font-bold cursor-pointer"
+                >
+                  Log
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        {/* Stats Section */}
+        <div className="grid grid-cols-3 gap-6 mb-8">
+          <Card className="py-4 px-6">
+            <div className="flex items-center gap-2 text-sm mb-1">
+              <img className="size-5 mr-1" src="/skill.svg" /> Your Skill
+            </div>
+            <div className="text-2xl font-bold">{skill.skillName}</div>
+          </Card>
+
+          <Card className="py-4 px-6">
+            <div className="flex items-center gap-2 text-sm mb-1">
+              <img className="size-5 mr-1" src="/clock.svg" /> Logged Hours
+            </div>
+            <div className="text-2xl font-bold">{logged}h</div>
+          </Card>
+
+          <Card className="py-4 px-6">
+            <div className="flex items-center gap-2 text-sm mb-1">
+              <img className="size-5 mr-1" src="/target-arrow.svg" /> Remaining
+            </div>
+            <div className="text-2xl font-bold">{remaining}h</div>
+          </Card>
+        </div>
+
+        {/* Progress Bar */}
+        <Card className="px-6 mb-8">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-300">
+              {logged} / {goal}
+            </span>
+            <span className="text-gray-400 font-bold">{progressPercent}%</span>
           </div>
+          <Progress value={progressPercent}></Progress>
+        </Card>
+
+        {/* HeatMap section */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">Visual Progress</h2>
+          <Card className="scrollbar flex justify-center overflow-x-auto items-center py-4 px-6">
+            <HeatMapGraph />
+          </Card>
+        </div>
+
+        {/* History Section */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">History</h2>
+
+          {skill.history && skill.history.length > 0 ? (
+            skill.history
+              .slice()
+              .reverse()
+              .map((entry, index) => (
+                <Card key={index} className="mb-3 py-4 px-6">
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="text-lg font-semibold mb-1">
+                        {entry.date}
+                      </div>
+                      <div className="text-gray-400">
+                        Today's practice hours: {entry.hours}
+                      </div>
+                    </div>
+                    <button className="text-gray-400 hover:text-white text-3xl"></button>
+                  </div>
+                </Card>
+              ))
+          ) : (
+            <p className="text-gray-500">No history yet.</p>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
