@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const { user, loading, setUser } = useAuth();
@@ -16,10 +17,10 @@ function Navbar() {
     firebaseSignOut(() => setUser(null));
   };
   return (
-    <nav className="px-18 py-4 flex justify-between items-center border-b-2">
+    <nav className="px-50 py-4 flex justify-between items-center border-b-2">
       <div>
-        <p className="text-3xl max-[630px]:text-2xl font-bold">
-          Ten Thousand Hours
+        <p className="text-3xl font-bold">
+          <Link to={"/"}>Ten Thousand Hours</Link>
         </p>
         <p className="text-[18px] max-[400px]:text-[14px] font-normal text-[#a2a2a2]">
           Track. Improve. Master
