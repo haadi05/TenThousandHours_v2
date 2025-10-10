@@ -21,6 +21,12 @@ function Dashboard() {
   const skill = skills.find((s) => String(s.id) === id);
   const [loggedHours, setLoggedHours] = useState(0);
   const [open, setOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const goal = skill.goalHours || 10000;
+  const logged = skill.loggedHours || 0;
+  const remaining = goal - logged;
+  const progressPercent = Math.min((logged / goal) * 100, 100).toFixed(1);
 
   if (!skill)
     return (
@@ -29,18 +35,20 @@ function Dashboard() {
         <Button onClick={() => navigate("/")}>Go Back</Button>
       </div>
     );
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (loggedHours <= 0) return;
+    if (loggedHours > skill.goalHours)
+      return setErrorMsg("You can’t log more hours than your goal.");
+    if (loggedHours > remaining)
+      return setErrorMsg("You can’t log more hours than your goal.");
+
     logHours(skill.id, Number(loggedHours));
     setLoggedHours(0);
+    setErrorMsg("");
     setOpen(false);
   };
-
-  const goal = skill.goalHours || 10000;
-  const logged = skill.loggedHours || 0;
-  const remaining = goal - logged;
-  const progressPercent = Math.min((logged / goal) * 100, 100).toFixed(1);
 
   return (
     <div className="min-h-screen text-white p-8 [&>*]:outline-none">
@@ -50,6 +58,7 @@ function Dashboard() {
 
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
+              asChild
               onClick={() => {
                 setOpen(true);
               }}
@@ -59,13 +68,13 @@ function Dashboard() {
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="w-94">
+            <DialogContent aria-describedby={undefined} className="w-94">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold mb-4">
                   Log Hours
                 </DialogTitle>
               </DialogHeader>
-
+              {errorMsg && <p className="text-red-400">{errorMsg}</p>}
               <div className="flex items-center gap-2 mb-4">
                 <button
                   onClick={() =>
@@ -83,13 +92,23 @@ function Dashboard() {
                   value={loggedHours}
                   onChange={(e) => {
                     const value = Number(e.target.value);
-                    if (value >= 0 && value <= 24) setLoggedHours(value);
+                    if (value >= 0 && value <= 16) setLoggedHours(value);
                   }}
-                  max={24}
+                  max={16}
                   min={0}
                   className="no-arrows flex-1 text-center font-semibold"
                 />
-                <button onClick={(e) => setLoggedHours((h) => Number(h) + 1)}>
+                <button
+                  onClick={(e) =>
+                    setLoggedHours((h) => {
+                      if (loggedHours > 15) {
+                        return h;
+                      } else {
+                        return Number(h) + 1;
+                      }
+                    })
+                  }
+                >
                   <img
                     src="/plus.svg"
                     className="w-12 h-12 cursor-pointer"
