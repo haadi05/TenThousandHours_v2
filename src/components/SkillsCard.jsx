@@ -25,13 +25,15 @@ function SkillsCard({ skillObj }) {
         <div className="flex justify-between items-center mb-8">
           <p className="font-semibold text-2xl">{title}</p>
 
-          {/* Edit Btn */}
+          {/* Edit & Del Btn */}
           <Popover>
-            <PopoverTrigger className="outline-none cursor-pointer hover:bg-accent rounded-full p-2">
-              <img src="/dots.svg" />
+            <PopoverTrigger asChild>
+              <button className="outline-none cursor-pointer hover:bg-accent rounded-full p-2">
+                <img src="/dots.svg" />
+              </button>
             </PopoverTrigger>
             <PopoverContent side="left" className="w-fit bg-card border-0 p-0">
-              <DeletePopUp />
+              <DeletePopUp skills={skillObj} />
               <EditPopUp skills={skillObj} />
             </PopoverContent>
           </Popover>
