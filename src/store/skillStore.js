@@ -30,6 +30,10 @@ const useSkillStore = create((set) => ({
           : s
       ),
     })),
+
+  deleteSkill: (id) => {
+    set((state) => ({ skills: state.skills.filter((s) => s.id !== id) }));
+  },
 }));
 
 export default useSkillStore;
