@@ -33,7 +33,9 @@ function Navbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>user@email.com</DropdownMenuLabel>
-            <DropdownMenuItem onClick={handleLogout}>Signout</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+              Signout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

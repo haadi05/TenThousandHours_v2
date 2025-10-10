@@ -38,12 +38,12 @@ function EditPopUp({ skills }) {
   return (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <button className="outline-none cursor-pointer hover:bg-accent rounded-full p-2 size-10">
             <img src="/pencil.svg" alt="Edit" />
           </button>
         </DialogTrigger>
-        <DialogContent className="w-100">
+        <DialogContent aria-describedby={undefined} className="w-100">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold mb-4">
               Edit Skill
@@ -77,7 +77,7 @@ function EditPopUp({ skills }) {
               <ThemeDropdown /> */}
 
               <Button
-                className="cursor-pointer text-md font-bold hover:bg-secondary mt-4"
+                className="cursor-pointer text-md font-bold hover:bg-secondary"
                 type="submit"
               >
                 Save

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { SkillsCard, AddCard } from "../importStore";
 import useSkillStore from "../store/skillStore";
-import { useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
 
 function Home() {
   const [open, setOpen] = useState(false);
