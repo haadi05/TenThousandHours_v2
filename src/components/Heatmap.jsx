@@ -1,18 +1,36 @@
 import HeatMap from "@uiw/react-heat-map";
-
-const value = [
-  { date: "2025/01/11", count: 2 },
-  { date: "2025/01/12", count: 4 },
-  { date: "2025/01/13", count: 10 },
-  { date: "2025/04/13", count: 5 },
-  { date: "2025/06/18", count: 1 },
-  { date: "2025/09/17", count: 7 },
-  { date: "2025/11/23", count: 2 },
-  { date: "2025/10/13", count: 6 },
-  { date: "2025/12/31", count: 9 },
-];
+import { useEffect, useState } from "react";
+import useSkillStore from "../store/skillStore";
+import { useParams } from "react-router-dom";
 
 const HeatMapGraph = () => {
+  const { skills, updateSkill } = useSkillStore();
+
+  //Take url id as parameter
+  const { id } = useParams();
+  const skillObj = skills.find((s) => String(s.id) === id);
+  const loggedHours = skillObj.loggedHours;
+
+  const [loggedHoursVault, setLoggedHoursVault] = useState([]);
+
+  // d is short name for new Date
+  const formatDate = (d) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); //+1 cuz js months start(Jan) with 0 like arrays
+    const day = String(d.getDate()).padStart(2, "0"); // 09 cuz js returns only 9
+    return `${year}/${month}/${day}`;
+  };
+
+  const today = formatDate(new Date());
+
+  useEffect(() => {
+    setLoggedHoursVault((prev) => [prev, { date: today, count: loggedHours }]);
+    const updates = { loggedHoursVault };
+    updateSkill(skillObj.id, updates);
+  }, [loggedHours]);
+
+  const value = skillObj.loggedHoursVault;
+
   return (
     <>
       <div>
@@ -31,11 +49,11 @@ const HeatMapGraph = () => {
           style={{ color: "#ffffff", "--rhm-rect-active": "white" }}
           panelColors={{
             0: "#373737",
-            3: "#3d3d3d",
-            6: "#666666",
-            8: "#999999",
-            10: "#b8b8b8",
-            12: "#ffffff",
+            1: "#3d3d3d",
+            3: "#949494",
+            6: "#c7c7c7",
+            8: "#e3e3e3",
+            10: "#ffffff",
           }}
         />
       </div>
@@ -45,22 +63,22 @@ const HeatMapGraph = () => {
         <div className="flex gap-1 [&>*]:rounded-full [&>*]:w-4 [&>*]:h-4">
           <span
             style={{
-              backgroundColor: "#373737" || "transparent",
+              backgroundColor: "#3d3d3d",
             }}
           ></span>
           <span
             style={{
-              backgroundColor: "#3d3d3d" || "transparent",
+              backgroundColor: "#949494",
             }}
           ></span>
           <span
             style={{
-              backgroundColor: "#666666" || "transparent",
+              backgroundColor: "#c7c7c7",
             }}
           ></span>
           <span
             style={{
-              backgroundColor: "#999999" || "transparent",
+              backgroundColor: "#ffffff",
             }}
           ></span>
         </div>
