@@ -15,18 +15,11 @@ import {
 import useSkillStore from "../store/skillStore";
 
 function Dashboard() {
+  //Take url id as parameter
   const { id } = useParams();
   const navigate = useNavigate();
   const { skills, logHours } = useSkillStore();
   const skill = skills.find((s) => String(s.id) === id);
-  const [loggedHours, setLoggedHours] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const goal = skill.goalHours || 10000;
-  const logged = skill.loggedHours || 0;
-  const remaining = goal - logged;
-  const progressPercent = Math.min((logged / goal) * 100, 100).toFixed(1);
 
   if (!skill)
     return (
@@ -36,10 +29,19 @@ function Dashboard() {
       </div>
     );
 
+  const [loggedHours, setLoggedHours] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const goal = skill.goalHours || 10000;
+  const logged = skill.loggedHours || 0;
+  const remaining = goal - logged;
+  const progressPercent = Math.min((logged / goal) * 100, 100).toFixed(1);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (loggedHours <= 0) return;
-    if (loggedHours > skill.goalHours)
+    if (loggedHours > goal)
       return setErrorMsg("You can’t log more hours than your goal.");
     if (loggedHours > remaining)
       return setErrorMsg("You can’t log more hours than your goal.");

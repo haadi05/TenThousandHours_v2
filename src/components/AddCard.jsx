@@ -6,7 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Popover,
@@ -19,11 +18,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
-import { ThemeDropdown } from "../importStore.js";
+// import { ThemeDropdown } from "../importStore.js";
 import useSkillStore from "../store/skillStore.js";
 
 function AddCard() {
-  const { setSkill } = useSkillStore();
+  const { skills, setSkill } = useSkillStore();
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -48,6 +47,7 @@ function AddCard() {
     setSkill(newSkill);
     setSkillName("");
     setInitialHours(0);
+    // setGoalHours(10000);
     setOpenDialog(false);
   };
 
