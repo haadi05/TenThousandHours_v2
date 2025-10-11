@@ -11,7 +11,7 @@
 ## Features for v2
 
 - [x] Improved UI/UX — Cleaner design, better navigation, and less clutter.
-- [ ] Editable Skills — Rename, update goals, and customize themes.
+- [x] Editable Skills — Rename, update goals, and customize themes.
 - [x] History Log — See past progress and time entries in a timeline.
 - [x] Zustand Store — Lightweight and scalable state management.
 - [ ] Optimized Performance — Faster load times and better responsiveness.
