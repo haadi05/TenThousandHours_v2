@@ -13,25 +13,29 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import useSkillStore from "../store/skillStore";
+import useAuthStore from "../store/authStore";
 
 function Dashboard() {
   //Take url id as parameter
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   const { skills, logHours } = useSkillStore();
+
+  const [loggedHours, setLoggedHours] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const skill = skills.find((s) => String(s.id) === id);
 
-  if (!skill)
+  if (!skill) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center text-white">
         <p className="text-lg mb-4">Skill not found.</p>
         <Button onClick={() => navigate("/")}>Go Back</Button>
       </div>
     );
-
-  const [loggedHours, setLoggedHours] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  }
 
   const goal = skill.goalHours || 10000;
   const logged = skill.loggedHours || 0;
