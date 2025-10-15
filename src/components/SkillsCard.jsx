@@ -15,6 +15,7 @@ function SkillsCard({ skillObj }) {
   const title = skillObj.skillName;
   const logged_hours = Number(skillObj.loggedHours) || 0;
   const goal_hours = Number(skillObj.goalHours) || 0;
+  const remaining = goal_hours - logged_hours;
   const percentage =
     goal_hours > 0 ? Math.min((logged_hours / goal_hours) * 100, 100) : 0;
   // const theme = "red";
@@ -53,7 +54,7 @@ function SkillsCard({ skillObj }) {
               <img className="size-6 pr-1" src="/target-arrow.svg" />
               Remaining
             </span>
-            <p className="text-xl text-white font-semibold">{goal_hours}h</p>
+            <p className="text-xl text-white font-semibold">{remaining}h</p>
           </div>
         </div>
 
