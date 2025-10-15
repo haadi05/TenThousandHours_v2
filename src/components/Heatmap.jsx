@@ -24,10 +24,25 @@ const HeatMapGraph = () => {
   const today = formatDate(new Date());
 
   useEffect(() => {
-    setLoggedHoursVault((prev) => [prev, { date: today, count: loggedHours }]);
-    const updates = { loggedHoursVault };
-    updateSkill(skillObj.id, updates);
+    if (loggedHours > 0) {
+      setLoggedHoursVault((prev) => {
+        const todayEntry = prev.find((e) => e.date === today);
+        if (todayEntry) {
+          return prev.map((e) =>
+            e.date === today ? { ...e, count: e.count + loggedHours } : e
+          );
+        } else {
+          return [...prev, { date: today, count: loggedHours }];
+        }
+      });
+    }
   }, [loggedHours]);
+
+  useEffect(() => {
+    if (loggedHoursVault.length > 0) {
+      updateSkill(skillObj.id, { loggedHoursVault });
+    }
+  }, [loggedHoursVault]);
 
   const value = skillObj.loggedHoursVault;
 

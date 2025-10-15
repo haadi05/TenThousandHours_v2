@@ -58,7 +58,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen text-white p-8 [&>*]:outline-none">
-      <div className="mx-44">
+      <div className="mx-43 max-[1500px]:mx-33 max-[1385px]:mx-23 max-[1260px]:mx-13 max-[580px]:mx-3">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">Overview</h2>
 
@@ -145,7 +145,7 @@ function Dashboard() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-3 max-[760px]:grid-cols-1 gap-6 mb-8">
           <Card className="py-4 px-6">
             <div className="flex items-center gap-2 text-sm mb-1">
               <img className="size-5 mr-1" src="/skill.svg" /> Your Skill
