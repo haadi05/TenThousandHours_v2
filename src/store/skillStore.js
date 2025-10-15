@@ -60,7 +60,6 @@ const useSkillStore = create((set, get) => ({
     }
   },
 
-  // 🔹 Log hours (local + Firestore)
   logHours: async (id, hours) => {
     const { user } = useAuthStore.getState();
     const uid = user?.uid;
@@ -68,13 +67,11 @@ const useSkillStore = create((set, get) => ({
 
     const date = new Date().toLocaleDateString();
 
-    // compute new skill state
     const currentSkill = get().skills.find((s) => s.id === id);
     if (!currentSkill) return;
 
     const history = [...(currentSkill.history || []), { date, hours }];
 
-    // normalize vault
     const rawVault = currentSkill.loggedHoursVault || [];
     const flat = [];
     rawVault.forEach((item) => {
@@ -103,12 +100,10 @@ const useSkillStore = create((set, get) => ({
       loggedHoursVault: vault,
     };
 
-    // 1️⃣ Local update
     set((state) => ({
       skills: state.skills.map((s) => (s.id === id ? { ...s, ...updates } : s)),
     }));
 
-    // 2️⃣ Firestore sync
     try {
       await updateData(String(uid), String(id), updates);
     } catch (err) {

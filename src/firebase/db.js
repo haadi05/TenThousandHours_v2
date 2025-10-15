@@ -58,8 +58,6 @@ export const updateData = async (userId, skillId, updates) => {
       updates.loggedHoursVault = updates.loggedHoursVault.flat();
     }
     await updateDoc(skillRef, updates);
-
-    await updateDoc(skillRef, updates);
   } catch (error) {
     console.error("Error updating skill:", error);
     throw error;
