@@ -29,7 +29,7 @@ function Navbar() {
       <div className="flex items-center gap-3">
         <DropdownMenu>
           <DropdownMenuTrigger className="cursor-pointer outline-none">
-            <img className="size-11" src="./src/assets/logo.svg" />
+            <img className="size-11" src="/target.svg" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {/* <DropdownMenuLabel>user@email.com</DropdownMenuLabel> */}

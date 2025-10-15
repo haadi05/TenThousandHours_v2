@@ -25,8 +25,7 @@ export default function LoginForm({ className, ...props }) {
     <div className="h-screen flex justify-center items-center">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <p className="text-white flex justify-center items-center text-lg font-md">
-          <img className="size-6 mr-1" src="./src/assets/logo.svg" /> Ten
-          Thousand Hours
+          <img className="size-6 mr-1" src="/target.svg" /> Ten Thousand Hours
         </p>
         <Card className="w-xs">
           <CardHeader className="flex flex-col justify-center items-center">
