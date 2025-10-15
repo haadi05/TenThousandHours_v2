@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { SkillsCard, AddCard } from "../importStore";
 import useSkillStore from "../store/skillStore";
 
 function Home() {
-  const [open, setOpen] = useState(false);
   const { skills } = useSkillStore();
 
   return (
