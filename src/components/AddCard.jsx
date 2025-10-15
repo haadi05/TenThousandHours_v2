@@ -20,6 +20,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
 // import { ThemeDropdown } from "../importStore.js";
 import useSkillStore from "../store/skillStore.js";
+import { setData } from "../firebase/db.js";
+import useAuthStore from "../store/authStore";
 
 function AddCard() {
   const { skills, setSkill } = useSkillStore();
@@ -31,8 +33,10 @@ function AddCard() {
   const [goalHours, setGoalHours] = React.useState(10000);
   const [date, setDate] = React.useState(new Date());
   // const [theme, setTheme] = React.useState();
+  const { user } = useAuthStore();
+  const userId = user.uid;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newSkill = {
@@ -47,8 +51,14 @@ function AddCard() {
     setSkill(newSkill);
     setSkillName("");
     setInitialHours(0);
-    // setGoalHours(10000);
+    setGoalHours(10000);
     setOpenDialog(false);
+
+    try {
+      await setData(String(userId), newSkill, String(newSkill.id));
+    } catch (error) {
+      console.error("Failed to update Firestore:", error);
+    }
   };
 
   return (
@@ -63,7 +73,7 @@ function AddCard() {
             setOpenDialog(true);
           }}
         >
-          <Card className="flex h-full justify-center items-center cursor-pointer border-2 transition delay-40 duration-160 ease-in hover:border-2 hover:border-muted-foreground">
+          <Card className="min-h-[228px] py-2 flex h-full justify-center items-center cursor-pointer border-2 transition delay-40 duration-160 ease-in hover:border-2 hover:border-muted-foreground">
             <div className="flex flex-col justify-center items-center">
               <img className="size-16" src="/plus.svg" />
               <p className="font-medium text-lg mt-2">Add New Skill</p>
