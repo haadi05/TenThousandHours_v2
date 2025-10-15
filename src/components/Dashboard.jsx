@@ -172,7 +172,7 @@ function Dashboard() {
         <Card className="px-6 mb-8">
           <div className="flex items-center justify-between">
             <span className="text-gray-300">
-              {logged} / {goal}
+              {logged} / {goal} hours
             </span>
             <span className="text-gray-400 font-bold">{progressPercent}%</span>
           </div>
