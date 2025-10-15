@@ -10,12 +10,15 @@ import {
 //firebase imports
 import useAuth from "../hooks/useAuth";
 import { firebaseSignIn } from "../firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({ className, ...props }) {
   const { setUser } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    firebaseSignIn((loggedInUser) => setUser(loggedInUser));
+  const handleLogin = async () => {
+    await firebaseSignIn((loggedInUser) => setUser(loggedInUser));
+    navigate("/");
   };
 
   return (
