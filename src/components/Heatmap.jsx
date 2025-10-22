@@ -13,7 +13,7 @@ const HeatMapGraph = () => {
 
   const [loggedHoursVault, setLoggedHoursVault] = useState([]);
 
-  // d is short name for new Date
+  // d is short for new Date
   const formatDate = (d) => {
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, "0"); //+1 cuz js months start(Jan) with 0 like arrays
@@ -23,28 +23,38 @@ const HeatMapGraph = () => {
 
   const today = formatDate(new Date());
 
+  //sync firebase skill data in site
+  useEffect(() => {
+    if (skillObj?.loggedHoursVault) {
+      setLoggedHoursVault(skillObj.loggedHoursVault);
+    }
+  }, [skillObj?.id]);
+
   useEffect(() => {
     if (loggedHours > 0) {
       setLoggedHoursVault((prev) => {
         const todayEntry = prev.find((e) => e.date === today);
         if (todayEntry) {
+          //update today's count
           return prev.map((e) =>
-            e.date === today ? { ...e, count: e.count + loggedHours } : e
+            e.date === today ? { ...e, count: loggedHours } : e
           );
         } else {
+          //add a new entry for today
           return [...prev, { date: today, count: loggedHours }];
         }
       });
     }
-  }, [loggedHours]);
+  }, [loggedHours, today]);
 
+  //sync logged hours to firestore
   useEffect(() => {
     if (loggedHoursVault.length > 0) {
       updateSkill(skillObj.id, { loggedHoursVault });
     }
   }, [loggedHoursVault]);
 
-  const value = skillObj.loggedHoursVault;
+  const value = loggedHoursVault;
 
   return (
     <>
