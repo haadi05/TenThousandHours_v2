@@ -174,7 +174,7 @@ function Dashboard() {
             <span className="text-gray-300">
               {logged} / {goal} hours
             </span>
-            <span className="text-gray-400 font-bold">{progressPercent}%</span>
+            <span className="text-gray-300 font-bold">{progressPercent}%</span>
           </div>
           <Progress value={progressPercent}></Progress>
         </Card>
@@ -202,8 +202,8 @@ function Dashboard() {
                       <div className="text-lg font-semibold mb-1">
                         {entry.date}
                       </div>
-                      <div className="text-gray-400">
-                        Today's practice hours: {entry.hours}
+                      <div className="text-muted-foreground">
+                        Practiced hours: {entry.hours}
                       </div>
                     </div>
                     <button className="text-gray-400 hover:text-white text-3xl"></button>
